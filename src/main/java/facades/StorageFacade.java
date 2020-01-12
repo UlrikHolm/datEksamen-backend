@@ -1,22 +1,27 @@
 package facades;
 
+import dto.RecipeDTO;
+import entities.Item;
+import entities.Recipe;
 import entities.RenameMe;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
 
 /**
  *
  * Rename Class to a relevant name Add add relevant facade methods
  */
-public class FacadeExample {
+public class StorageFacade {
 
-    private static FacadeExample instance;
+    private static StorageFacade instance;
     private static EntityManagerFactory emf;
     
     //Private Constructor to ensure Singleton
-    private FacadeExample() {}
+    private StorageFacade() {}
     
     
     /**
@@ -24,10 +29,10 @@ public class FacadeExample {
      * @param _emf
      * @return an instance of this facade class.
      */
-    public static FacadeExample getFacadeExample(EntityManagerFactory _emf) {
+    public static StorageFacade getFacadeExample(EntityManagerFactory _emf) {
         if (instance == null) {
             emf = _emf;
-            instance = new FacadeExample();
+            instance = new StorageFacade();
         }
         return instance;
     }
@@ -36,19 +41,20 @@ public class FacadeExample {
         return emf.createEntityManager();
     }
     
-    //TODO Remove/Change this before use
-    public long getRenameMeCount(){
+    public long getItemStorage(Item item){
         EntityManager em = emf.createEntityManager();
         try{
-            long renameMeCount = (long)em.createQuery("SELECT COUNT(r) FROM RenameMe r").getSingleResult();
-            return renameMeCount;
+            long recipeCount = (long)em.createQuery("SELECT s.amount FROM Storage s WHERE s.item = :item")
+                    .setParameter("item", item)
+                    .getSingleResult();
+            return recipeCount;
         }finally{  
             em.close();
         }
         
     }
     
-        public long getRequestCategoryCount(String category){
+    public long getRequestCategoryCount(String category){
         EntityManager em = emf.createEntityManager();
         try{
             long RequestCount = (long)em.createQuery("SELECT COUNT(r) FROM Reguest r JOIN r.categoryList c WHERE c.name = :category")
