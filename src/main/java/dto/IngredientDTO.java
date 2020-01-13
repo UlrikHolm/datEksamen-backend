@@ -14,23 +14,23 @@ import entities.Item;
  */
 public class IngredientDTO {
     
-    private Item item;
+    private ItemDTO item;
     private int amount;
 
     public IngredientDTO() {
     }
 
-    public IngredientDTO(Item item, int amount) {
+    public IngredientDTO(ItemDTO item, int amount) {
         this.item = item;
         this.amount = amount;
     }
 
     IngredientDTO(Ingredient i) {
-        //this.item = i.getItem();
+        this.item = new ItemDTO(i.getItem());
         this.amount = i.getAmount();
     }
 
-    public Item getItem() {
+    public ItemDTO getItem() {
         return item;
     }
 

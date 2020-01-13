@@ -1,9 +1,12 @@
 package facades;
 
+import dto.IngredientDTO;
 import dto.RecipeDTO;
+import entities.Ingredient;
 import entities.Item;
 import entities.Recipe;
 import entities.RenameMe;
+import entities.Storage;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -54,16 +57,19 @@ public class StorageFacade {
         
     }
     
-    public long getRequestCategoryCount(String category){
-        EntityManager em = emf.createEntityManager();
-        try{
-            long RequestCount = (long)em.createQuery("SELECT COUNT(r) FROM Reguest r JOIN r.categoryList c WHERE c.name = :category")
-                    .setParameter("category", category)
-                    .getSingleResult();
-            return RequestCount;
-        }finally{  
-            em.close();
-        }   
+    public String checkStorage(Recipe recipe, Storage storage){
+        for (int i = 0; i < recipe.getIngredients().size(); i++) {
+            if (recipe.getIngredients().get(i).getAmount() > storage.getAmount()) {
+                return "For lidt";
+            }            
+        }
+        return "ok";
+        
+//        for (Ingredient in : recipe.getIngredients()){ 
+//            if (recipe.getIngredients().get(0).getAmount() > storage.getAmount()) {
+//                return "Forl idt";
+//            }
+//        }
     }
-
+    
 }

@@ -5,7 +5,10 @@
  */
 package entities;
 
+import dto.IngredientDTO;
+import dto.ItemDTO;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -26,17 +29,26 @@ public class Ingredient implements Serializable {
     @ManyToOne
     private Item item;
     private int amount;
-    @ManyToMany
-    private List<Recipe> recipes;
+//    private List<Recipe> recipes = new ArrayList();
 
     public Ingredient() {
     }
 
-    public Ingredient(Item item, int amount, List<Recipe> recipes) {
+//    public Ingredient(Item item, int amount) {
+//        this.item = item;
+//        this.amount = amount;
+////        this.recipes = recipes;
+//    }
+
+    public Ingredient(Item item, int amount) {
         this.item = item;
         this.amount = amount;
-        this.recipes = recipes;
     }
+
+//    public Ingredient(IngredientDTO i) {
+//        this.item = i.getItem();
+//        this.amount = i.getAmount();
+//    }
 
 //    public Long getId() {
 //        return id;
@@ -62,12 +74,12 @@ public class Ingredient implements Serializable {
         this.amount = amount;
     }
 
-    public List<Recipe> getRecipes() {
-        return recipes;
-    }
-
-    public void setRecipes(List<Recipe> recipes) {
-        this.recipes = recipes;
-    }
+//    public List<Recipe> getRecipes() {
+//        return recipes;
+//    }
+//
+//    public void setRecipes(List<Recipe> recipes) {
+//        this.recipes = recipes;
+//    }
 
 }

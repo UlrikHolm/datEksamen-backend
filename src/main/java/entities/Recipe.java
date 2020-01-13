@@ -6,6 +6,7 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -34,8 +35,8 @@ public class Recipe implements Serializable {
     private List<WeekMenu> weekMenus;
     
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @ManyToMany(mappedBy = "recipes")
-    private List<Ingredient> ingredients;
+    //@ManyToMany(mappedBy = "recipes")
+    private List<Ingredient> ingredients = new ArrayList();
 
     public Recipe() {
     }
@@ -46,6 +47,14 @@ public class Recipe implements Serializable {
         this.weekMenus = weekMenus;
         this.ingredients = ingredients;
     }    
+
+    public Recipe(String preperationTime, String directions, List<Ingredient> ingredients) {
+        this.preperationTime = preperationTime;
+        this.directions = directions;
+        this.ingredients = ingredients;
+    }
+    
+    
 
     public Long getId() {
         return id;

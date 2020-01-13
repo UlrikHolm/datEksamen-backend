@@ -1,9 +1,12 @@
 package facades;
 
+import dto.IngredientDTO;
 import dto.RecipeDTO;
+import entities.Ingredient;
 import entities.Item;
 import entities.Recipe;
 import entities.RenameMe;
+import entities.Storage;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -86,7 +89,18 @@ public class RecipeFacade {
         return RecipeDTO;
     }
     
-        public int getItemStorage(long item){
+    public RecipeDTO deleteRecipe(Long id){
+        EntityManager em = getEntityManager();
+        Recipe r = em.find(Recipe.class, id);
+        em.getTransaction().begin();
+        em.remove(r);
+        em.getTransaction().commit();
+        em.close();
+        return new RecipeDTO(r);
+    }
+    
+    
+    public int getItemStorage(long item){
         EntityManager em = emf.createEntityManager();
         try{
             int recipeCount = (int)em.createQuery("SELECT s.amount FROM Storage s WHERE s.item.id = :item")
@@ -98,5 +112,42 @@ public class RecipeFacade {
         }
         
     }
+    
+    public String checkRecipeStorage(long id){
+        Recipe recipe = getRecipeById(id);
+        long storage;
+        
+        for (Ingredient i : recipe.getIngredients()){
+            storage = i.getItem().getStorage().getAmount();
+            if (i.getAmount() > storage){
+                return "{\"status\": \"not\"}";                
+            }
+
+        }
+
+        return "{\"status\": \"ok\"}";
+    }
+    
+//    public Recipe addRecipe(RecipeDTO r) {
+//        EntityManager em = getEntityManager();
+//        String prepTime = r.getPreperationTime();
+//        String directions = r.getDirections();
+//        
+//        List<Ingredient> ingredientList = new ArrayList();
+//        for (IngredientDTO i : r.getIngredients()) {
+//            ingredientList.add(new Ingredient(i));
+//        }
+//                
+//        Recipe recipe = new Recipe(prepTime, directions, ingredientList);
+//
+//        try {
+//            em.getTransaction().begin();        
+//            em.persist(recipe);
+//            em.getTransaction().commit();
+//        } finally {
+//            em.close();
+//        }
+//        return recipe;
+//    }
 
 }

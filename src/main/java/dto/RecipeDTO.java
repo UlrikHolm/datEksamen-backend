@@ -33,5 +33,23 @@ public class RecipeDTO {
             this.ingredients.add(new IngredientDTO(i));
         }
     }
+
+    public long getId() {
+        return id;
+    }
+
+    public String getPreperationTime() {
+        return preperationTime;
+    }
+
+    public String getDirections() {
+        return directions;
+    }
+
+    public List<IngredientDTO> getIngredients() {
+        return ingredients;
+    }
+    
+    
     
 }

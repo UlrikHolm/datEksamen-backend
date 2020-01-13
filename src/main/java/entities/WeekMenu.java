@@ -6,6 +6,7 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,7 +28,7 @@ public class WeekMenu implements Serializable {
     private int weekNo;
     private int year;
     @ManyToMany
-    private List<Recipe> recipies;
+    private List<Recipe> recipies = new ArrayList();
 
     public WeekMenu() {
     }
